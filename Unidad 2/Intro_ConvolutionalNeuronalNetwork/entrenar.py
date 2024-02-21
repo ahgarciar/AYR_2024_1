@@ -32,7 +32,7 @@ tot_kernels3 = 128
 
 stride = (2, 2) #para MaxPooling
 
-clases = 5 #total de clases a clasificar
+clases = 3 #total de clases a clasificar
 
 lr = 0.0005 #learning rate
 
@@ -75,22 +75,26 @@ cnn = Sequential()
 
 ##capa 1
 cnn.add(Convolution2D(tot_kernels1, kernel1, padding='same', input_shape=(alto, largo, 3), activation='relu'))
-cnn.add(MaxPooling2D(pool_size=stride))
 ##capa 2
-cnn.add(Convolution2D(tot_kernels2, kernel2, padding='same', activation='relu'))
 cnn.add(MaxPooling2D(pool_size=stride))
 ##capa 3
+cnn.add(Convolution2D(tot_kernels2, kernel2, padding='same', activation='relu'))
+##capa 4
+cnn.add(MaxPooling2D(pool_size=stride))
+##capa 5
 cnn.add(Convolution2D(tot_kernels3, kernel3, padding='same', activation='relu'))
+##capa 6
 cnn.add(MaxPooling2D(pool_size=stride))
 
 cnn.add(Flatten()) # aplana la informacion
-##capa 4
+
+##capa 7
 cnn.add(Dense(256, activation='relu')) #
 
 cnn.add(Dropout(0.5)) #porcentaje de neuronas apagadas en cada paso (0.5 = 50%)
 # permite aprender caminos alternos para clasificar.. evita sobreentrenamiento
 
-#capa 5 - salida
+#capa 8 - salida
 cnn.add(Dense(clases, activation='softmax'))
 
 cnn.compile(loss='categorical_crossentropy', optimizer=optimizers.Adam(learning_rate=lr), metrics=['accuracy'])
